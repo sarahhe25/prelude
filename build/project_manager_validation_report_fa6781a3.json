@@ -1,0 +1,19 @@
+{
+  "generated_at": "2026-08-04T22:01:30.599200+00:00",
+  "source": "project_manager_early_career.txt",
+  "source_hash": "fa6781a3430c80d313bdf6efa9cffae1351842bbc5f9b2f6fd49e5ac2ff051b3",
+  "accepted_records": 13,
+  "rejected_records": 0,
+  "chunks": 13,
+  "role_distribution": {
+    "project_manager": 13
+  },
+  "seniority_distribution": {
+    "junior": 13
+  },
+  "embedding_model": null,
+  "embedding_dimensions": null,
+  "warnings": [
+    "Content is synthetic and approved only for demo use"
+  ]
+}

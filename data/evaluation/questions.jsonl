@@ -1,0 +1,5 @@
+{"id":"eval-001","question":"What does a normal day look like for this project manager?","role_family":"project_manager","expected_record_ids":["project_manager-fa6781a3430c-q012"],"should_abstain":false}
+{"id":"eval-002","question":"Which project management tools do they use?","role_family":"project_manager","expected_record_ids":["project_manager-fa6781a3430c-q003"],"should_abstain":false}
+{"id":"eval-003","question":"How do they respond when a deadline is at risk?","role_family":"project_manager","expected_record_ids":["project_manager-fa6781a3430c-q007","project_manager-fa6781a3430c-q008"],"should_abstain":false}
+{"id":"eval-004","question":"What salary does this role pay?","role_family":"project_manager","expected_record_ids":[],"should_abstain":true}
+{"id":"eval-005","question":"What benefits does the company offer?","role_family":"project_manager","expected_record_ids":[],"should_abstain":true}
