@@ -96,21 +96,6 @@ def infer_topics(question: str, answer: str) -> list[str]:
     '''
     haystack = f"{question} {answer}".lower()
     return sorted(name for name, terms in TOPIC_RULES.items() if any(term in haystack for term in terms))
-
-
-def clean_transcript_turns(text: str, interviewer: str, respondent: str) -> str:
-    '''Append lines that do not start with a speaker label to the previous line, ensuring each turn is on a single line'''
-    turn = re.compile(rf"^(?:{re.escape(interviewer)}|{re.escape(respondent)}):\s*", re.I)
-    lines: list[str] = []
-    for raw in text.splitlines():
-        line = raw.strip()
-        if not line:
-            continue
-        if turn.match(line):
-            lines.append(line)
-        elif lines:
-            lines[-1] += " " + line
-    return "\n".join(lines)
     
 
 def parse_transcript(text: str, interviewer: str, respondent: str) -> list[tuple[str, str]]:
@@ -248,8 +233,7 @@ def ingest(args: argparse.Namespace) -> int:
         raise ValueError(f"Invalid review status: {args.review_status}")
     raw = args.input.read_text(encoding="utf-8")
     source_hash = digest(raw)
-    raw_cleaned = clean_transcript_turns(raw, args.interviewer_label, args.speaker_label)
-    pairs = parse_transcript(raw_cleaned, args.interviewer_label, args.speaker_label)
+    pairs = parse_transcript(raw, args.interviewer_label, args.speaker_label)
     records = make_records(pairs, args, source_hash)
     texts = [chunk_text(record) for record in records]
     vectors = embed(texts, args.embedding_model, args.batch_size) if args.embedding_model else [None] * len(texts)
