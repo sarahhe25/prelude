@@ -1,5 +1,15 @@
 # prelude
 
+## Backend Overview
+
+The backend is a Python-based retrieval-augmented generation (RAG) system built with FastAPI, OpenAI, PostgreSQL, and pgvector.
+
+Interview transcripts pass through a data pipeline that parses, validates, chunks, and tags the content before generating OpenAI embeddings and storing the results in PostgreSQL.
+
+When a user asks a question, the backend generates an embedding for the question and uses pgvector cosine similarity to retrieve the most relevant approved interview chunks for the selected role. These chunks are provided as evidence to an OpenAI model, which generates a grounded response with source references.
+
+The same retrieval logic powers both the search CLI and the `/chat` API endpoint.
+
 ## Run the search and chat backend
 
 ``` bash
