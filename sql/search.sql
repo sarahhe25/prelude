@@ -1,4 +1,5 @@
--- Parameters: $1 query embedding, $2 role family.
+-- Retrieve the most relevant chunks for a query for a role based on cosine similarity of embeddings
+-- Parameters: $1 query embedding, $2 role family
 
 SELECT
     chunk_id,

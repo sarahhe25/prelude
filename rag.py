@@ -1,3 +1,5 @@
+# Handles OpenAI embeddings, pgvector retrieval, and answer generation 
+
 from __future__ import annotations
 
 import json

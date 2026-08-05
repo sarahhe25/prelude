@@ -1,3 +1,5 @@
+# exposes health-check and chat endpoints through FastAPI
+
 from __future__ import annotations
 
 from functools import lru_cache

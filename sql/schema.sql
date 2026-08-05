@@ -1,3 +1,5 @@
+-- Create pgvector extension, chunks table, and database indexes 
+
 CREATE EXTENSION IF NOT EXISTS vector;
 
 CREATE TABLE IF NOT EXISTS chunks (

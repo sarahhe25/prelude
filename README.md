@@ -14,7 +14,12 @@ Start PostgreSQL/pgvector (the schema is applied automatically on first start):
 docker compose up -d db
 ```
 
-Generate embeddings
+### Database
+
+The application uses PostgreSQL with pgvector to store interview chunks, metadata, and OpenAI embeddings. Retrieval filters results by role and approval status, then ranks chunks by cosine similarity.
+
+
+## Generate embeddings
 ```bash
 python -m pipeline ingest \
   --input data/raw/project_manager_early_career.txt \
