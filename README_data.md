@@ -41,6 +41,32 @@ python -m pipeline ingest \
  --seniority junior
 ```
 
+With OpenAI embeddings
+```bash
+python -m pipeline ingest \
+  --input data/raw/project_manager_early_career.txt \
+  --output build/proj-001 \
+  --source-id proj-001 \
+  --role-family project_manager \
+  --role-title "Project Manager" \
+  --interviewer-label Interviewer \
+  --speaker-label PM \
+  --seniority junior \
+  --embedding-model text-embedding-3-small
+
+
+python -m pipeline ingest \
+  --input data/raw/ui_ux_designer.txt \
+  --output build/ui-ux-001 \
+  --source-id ui-ux-001 \
+  --role-family ui_ux_designer \
+  --role-title "UI/UX Designer" \
+  --interviewer-label "Priya" \
+  --speaker-label Jordan \
+  --seniority junior \
+  --embedding-model text-embedding-3-small
+```
+
 Outputs:
 
 - `build/<role_family>_records.jsonl`: normalized source records
