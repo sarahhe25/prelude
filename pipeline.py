@@ -12,7 +12,9 @@ from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Iterable, Iterator, Sequence
+from dotenv import load_dotenv
 
+load_dotenv()  # load environment variables from .env file
 
 ALLOWED_EVIDENCE = {"synthetic", "employee_sourced", "recruiter_approved"}
 ALLOWED_REVIEW = {"draft", "approved_for_demo", "published", "retired"}
