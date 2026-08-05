@@ -1,3 +1,6 @@
+# Data pipeline to parse, vadlidate, chunk and embed interview transcripts,
+# load into database
+
 from __future__ import annotations
 
 import argparse
