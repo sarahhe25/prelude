@@ -7,6 +7,7 @@ const JOBS = [
     description: "We're looking for a Staff Product Manager to drive cross-functional collaboration and data-driven decision-making across our platform team. You'll own the product roadmap for our core infrastructure, working closely with engineering, design, and go-to-market teams to ship features that scale.",
     requirements: "6+ years product management experience, strong analytical background, prior startup experience preferred. Familiarity with platform/infrastructure products and ability to translate technical concepts for diverse stakeholders.",
     companyAgentCount: 6,
+    videoUrl: "/videos/perlude_day_in_life_demo.mp4",
   },
   {
     id: 2, title: "Software Engineer", tags: ["Engineering", "Mid"], company: "DEF co.", location: "Remote", referrals: 2, saved: false,
@@ -343,6 +344,118 @@ function AgentChat({ job, agentType, onBack }) {
   );
 }
 
+/* ───── Video Player ───── */
+function VideoPlayer({ videoUrl: initialUrl, company }) {
+  const [playing, setPlaying] = useState(false);
+  const [videoSrc, setVideoSrc] = useState(initialUrl || null);
+  const videoRef = useRef(null);
+  const fileRef = useRef(null);
+
+  const handleFileSelect = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setVideoSrc(url);
+    }
+  };
+
+  const handlePlay = () => {
+    if (!videoSrc) {
+      fileRef.current?.click();
+      return;
+    }
+    setPlaying(true);
+    setTimeout(() => {
+      if (videoRef.current) {
+        videoRef.current.play().catch(() => {});
+      }
+    }, 50);
+  };
+
+  const handleVideoEnd = () => {
+    setPlaying(false);
+    if (videoRef.current) {
+      videoRef.current.currentTime = 0;
+    }
+  };
+
+  return (
+    <div style={{
+      borderRadius: 14, overflow: "hidden", marginBottom: 28,
+      background: "#1a1a1a", aspectRatio: "16/9",
+      position: "relative", cursor: playing ? "default" : "pointer",
+    }}
+      onClick={!playing ? handlePlay : undefined}
+    >
+      <input
+        ref={fileRef}
+        type="file"
+        accept="video/*"
+        onChange={handleFileSelect}
+        style={{ display: "none" }}
+      />
+      {playing && videoSrc ? (
+        <video
+          ref={videoRef}
+          src={videoSrc}
+          controls
+          onEnded={handleVideoEnd}
+          style={{
+            width: "100%", height: "100%", objectFit: "cover",
+            display: "block", borderRadius: 14,
+          }}
+        />
+      ) : (
+        <>
+          {videoSrc && (
+            <video
+              src={videoSrc}
+              muted
+              preload="metadata"
+              style={{
+                width: "100%", height: "100%", objectFit: "cover",
+                position: "absolute", top: 0, left: 0, opacity: 0.5,
+              }}
+            />
+          )}
+          <div style={{
+            position: "absolute", inset: 0,
+            display: "flex", alignItems: "center", justifyContent: "center",
+            zIndex: 2,
+          }}>
+            <div style={{
+              width: 72, height: 72, borderRadius: "50%",
+              background: "rgba(255,255,255,0.15)", backdropFilter: "blur(4px)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              transition: "transform 0.15s, background 0.15s",
+            }}
+              onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.1)"; e.currentTarget.style.background = "rgba(255,255,255,0.25)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1)"; e.currentTarget.style.background = "rgba(255,255,255,0.15)"; }}
+            >
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="#fff" stroke="none">
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+            </div>
+          </div>
+          <div style={{
+            position: "absolute", bottom: 16, left: 20, right: 20,
+            display: "flex", justifyContent: "space-between", alignItems: "center",
+            zIndex: 2,
+          }}>
+            <span style={{ fontSize: 13, color: "rgba(255,255,255,0.7)" }}>
+              A day in the life · {company}
+            </span>
+            <span style={{
+              fontSize: 12, color: "rgba(255,255,255,0.5)",
+              background: "rgba(0,0,0,0.4)", padding: "2px 8px", borderRadius: 6,
+            }}>{videoSrc ? "▶ Watch" : "📁 Load video"}</span>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
 /* ───── Job Detail View ───── */
 function JobDetail({ job, onBack, onToggleSave, onOpenAgent }) {
   return (
@@ -398,32 +511,26 @@ function JobDetail({ job, onBack, onToggleSave, onOpenAgent }) {
           Posted {job.posted} · {job.applicants} applicants
         </p>
 
-        {/* Video section placeholder */}
-        <div style={{
-          borderRadius: 14, overflow: "hidden", marginBottom: 28,
-          background: "#1a1a1a", aspectRatio: "16/9",
-          display: "flex", alignItems: "center", justifyContent: "center",
-          position: "relative", cursor: "pointer",
-        }}>
+        {/* Video section */}
+        {job.videoUrl ? (
+          <VideoPlayer videoUrl={job.videoUrl} company={job.company} />
+        ) : (
           <div style={{
-            width: 64, height: 64, borderRadius: "50%",
-            background: "rgba(255,255,255,0.15)", backdropFilter: "blur(4px)",
+            borderRadius: 14, overflow: "hidden", marginBottom: 28,
+            background: "#1a1a1a", aspectRatio: "16/9",
             display: "flex", alignItems: "center", justifyContent: "center",
+            position: "relative",
           }}>
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="#fff" stroke="none">
-              <path d="M8 5v14l11-7z"/>
-            </svg>
+            <div style={{ textAlign: "center" }}>
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="1.5">
+                <rect x="2" y="4" width="20" height="16" rx="2"/><path d="M10 9l5 3-5 3V9z"/>
+              </svg>
+              <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 13, marginTop: 8 }}>
+                Video coming soon
+              </p>
+            </div>
           </div>
-          <div style={{
-            position: "absolute", bottom: 16, left: 20, right: 20,
-            display: "flex", justifyContent: "space-between", alignItems: "center",
-          }}>
-            <span style={{ fontSize: 13, color: "rgba(255,255,255,0.6)" }}>
-              Company overview · {job.company}
-            </span>
-            <span style={{ fontSize: 12, color: "rgba(255,255,255,0.4)" }}>2:34</span>
-          </div>
-        </div>
+        )}
 
         {/* Agent section */}
         <div style={{
